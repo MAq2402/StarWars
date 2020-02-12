@@ -11,15 +11,22 @@ namespace StarWars.Domain.Entities
         private readonly List<CharacterFriendship> _friendshipsWhereIsFirst = new List<CharacterFriendship>();
         private readonly List<CharacterFriendship> _friendshipsWhereIsSecond = new List<CharacterFriendship>();
 
-        public Character(string name, IEnumerable<string> episodes)
+        private Character()
+        {
+
+        }
+
+        public Character(string name, string planet, IEnumerable<string> episodes)
         {
             Id = Guid.NewGuid();
             Name = name;
+            Planet = planet;
             _episodes = episodes.ToList();
         }
 
         public Guid Id { get; private set; }
         public string Name { get; private set; }
+        public string Planet { get; private set; }
         public IEnumerable<string> Episodes => _episodes;
         public IEnumerable<CharacterFriendship> FriendshipsWhereIsFirst => _friendshipsWhereIsFirst;
         public IEnumerable<CharacterFriendship> FriendshipsWhereIsSecond => _friendshipsWhereIsSecond;

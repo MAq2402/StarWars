@@ -6,6 +6,11 @@ namespace StarWars.Domain.Entities
 {
     public class CharacterFriendship
     {
+        private CharacterFriendship()
+        {
+
+        }
+
         public CharacterFriendship(Character first, Character second)
         {
             Id = Guid.NewGuid();

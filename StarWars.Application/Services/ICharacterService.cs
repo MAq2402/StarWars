@@ -9,5 +9,6 @@ namespace StarWars.Application.Services
     public interface ICharacterService
     {
         Task<IEnumerable<CharacterDto>> GetCharactersAsync();
+        Task AddCharacterAsync(CharacterForCreationDto dto);
     }
 }

@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using StarWars.Application.Services;
 using StarWars.Data.DbContexts;
+using StarWars.Data.Repositories;
 
 namespace StarWars.Web
 {
@@ -34,7 +35,8 @@ namespace StarWars.Web
             services.AddDbContext<StarWarsDbContext>(opt =>
                 opt.UseSqlServer(Configuration.GetConnectionString("Connection")));
 
-            services.AddTransient<ICharacterService, InMemoryCharacterService>();
+            services.AddTransient<ICharacterService, CharacterService>();
+            services.AddTransient<ICharacterRepository, CharacterRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

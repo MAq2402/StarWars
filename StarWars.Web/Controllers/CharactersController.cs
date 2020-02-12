@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using StarWars.Application.DTOs;
 using StarWars.Application.Services;
 
 namespace StarWars.Web.Controllers
@@ -22,6 +23,14 @@ namespace StarWars.Web.Controllers
         public async Task<IActionResult> GetCharactersAsync()
         {
             return Ok(await _characterService.GetCharactersAsync());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddCharacterAsync([FromBody] CharacterForCreationDto dto)
+        {
+            await _characterService.AddCharacterAsync(dto);
+
+            return Created(string.Empty, null);
         }
     }
 }
