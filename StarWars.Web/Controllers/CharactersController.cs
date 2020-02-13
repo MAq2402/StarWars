@@ -57,5 +57,31 @@ namespace StarWars.Web.Controllers
 
             return Created(string.Empty, null);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCharacterAsync([FromBody] CharacterForUpdateDto dto, string id)
+        {
+            if (!await _characterService.CharacterExistsAsync(new Guid(id)))
+            {
+                return NotFound("Character with given id does not exist");
+            }
+
+            await _characterService.UpdateCharacterAsync(dto, new Guid(id));
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCharacterAsync(string id)
+        {
+            if (!await _characterService.CharacterExistsAsync(new Guid(id)))
+            {
+                return NotFound("Character with given id does not exist");
+            }
+
+            await _characterService.DeleteCharacterAsync(new Guid(id));
+
+            return NoContent();
+        }
     }
 }

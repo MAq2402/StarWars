@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 
 namespace StarWars.Domain.Entities
 {
     public class Character
     {
-        private readonly List<string> _episodes;
+        private List<string> _episodes;
         private readonly List<CharacterFriendship> friendshipsWhereIsFirst = new List<CharacterFriendship>();
         private readonly List<CharacterFriendship> friendshipsWhereIsSecond = new List<CharacterFriendship>();
 
@@ -36,6 +37,12 @@ namespace StarWars.Domain.Entities
         {
             var friendship = new CharacterFriendship(this, otherCharacter);
             friendshipsWhereIsFirst.Add(friendship);
+        }
+
+        public void Update(string planet, IEnumerable<string> episodes)
+        {
+            Planet = planet;
+            _episodes = episodes.ToList();
         }
     }
 }
