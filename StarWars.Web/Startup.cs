@@ -6,11 +6,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using StarWars.Application.Services;
+using StarWars.Data.DbContexts;
+using StarWars.Data.Repositories;
 
 namespace StarWars.Web
 {
@@ -29,7 +32,11 @@ namespace StarWars.Web
             services.AddControllers();
             services.AddMvc().AddJsonOptions(options => { options.JsonSerializerOptions.IgnoreNullValues = true; });
 
-            services.AddTransient<ICharacterService, InMemoryCharacterService>();
+            services.AddDbContext<StarWarsDbContext>(opt =>
+                opt.UseSqlServer(Configuration.GetConnectionString("Connection")));
+
+            services.AddTransient<ICharacterService, CharacterService>();
+            services.AddTransient<ICharacterRepository, CharacterRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

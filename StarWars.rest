@@ -1,1 +1,28 @@
+@characterId = 76D806BA-9FDC-4DA4-B500-8D2EC31EC174
+@otherCharacterId = 11659748-49AA-4347-8E52-2AC2BBBA455
+
 GET https://localhost:44333/api/characters HTTP/1.1
+
+POST https://localhost:44333/api/characters HTTP/1.1 
+content-type: application/json
+
+{
+    "name": "Luke Skywalker",
+    "episodes": ["NEWHOPE", "EMPIRE", "JEDI"]
+}
+
+POST https://localhost:44333/api/characters HTTP/1.1 
+content-type: application/json
+
+{
+    "name": "Lela Oregana",
+    "episodes": ["NEWHOPE", "EMPIRE", "JEDI"],
+    "planet": "Alderaan"
+}
+
+POST https://localhost:44333/api/characters/{{characterId}}/friendships HTTP/1.1 
+content-type: application/json
+
+{
+    "characterId": "{{otherCharacterId}}"
+}
