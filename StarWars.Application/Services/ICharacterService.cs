@@ -9,6 +9,8 @@ namespace StarWars.Application.Services
     public interface ICharacterService
     {
         Task<IEnumerable<CharacterDto>> GetCharactersAsync();
+        Task<CharacterDto> GetCharacterAsync(Guid id);
+        Task<bool> CharacterExistsAsync(Guid id);
         Task AddCharacterAsync(CharacterForCreationDto dto);
         Task AddFriendForCharacterAsync(Guid firstCharacterId, Guid secondCharacterId);
     }

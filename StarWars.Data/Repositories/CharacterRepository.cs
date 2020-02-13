@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -17,9 +18,22 @@ namespace StarWars.Data.Repositories
             _dbContext = dbContext;
         }
 
+        public async Task<IEnumerable<Character>> GetCharactersAsync()
+        {
+            return await _dbContext.Characters.Include(c => c.FriendshipsWhereIsFirst)
+                .ThenInclude(f => f.Second)
+                .Include(c => c.FriendshipsWhereIsSecond)
+                .ThenInclude(f => f.First)
+                .ToListAsync();
+        }
+
         public async Task<Character> GetSingleAsync(Guid id)
         {
-            return await _dbContext.Characters.FirstOrDefaultAsync(c => c.Id == id);
+            return await _dbContext.Characters.Include(c => c.FriendshipsWhereIsFirst)
+                .ThenInclude(f => f.Second)
+                .Include(c => c.FriendshipsWhereIsSecond)
+                .ThenInclude(f => f.First)
+                .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task AddAsync(Character character)
