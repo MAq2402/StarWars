@@ -20,15 +20,15 @@ namespace StarWars.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCharactersAsync()
+        public IActionResult GetCharacters(int pageNumber = 1, int pageSize = 10)
         {
-            return Ok(await _characterService.GetCharactersAsync());
+            return Ok(_characterService.GetCharacters(pageNumber, pageSize));
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCharacterAsync(string id)
         {
-            if (!await _characterService.CharacterExistsAsync(new Guid(id)))
+            if (!await _characterService.CheckIfCharacterExistsAsync(new Guid(id)))
             {
                 return NotFound("Character with given id does not exist");
             }
@@ -47,8 +47,8 @@ namespace StarWars.Web.Controllers
         [HttpPost("{id}/friendships")]
         public async Task<IActionResult> CreateFriendship([FromBody] CharacterFriendshipForCreationDto dto, string id)
         {
-            if (!await _characterService.CharacterExistsAsync(new Guid(id)) ||
-                !await _characterService.CharacterExistsAsync(new Guid(dto.CharacterId)))
+            if (!await _characterService.CheckIfCharacterExistsAsync(new Guid(id)) ||
+                !await _characterService.CheckIfCharacterExistsAsync(new Guid(dto.CharacterId)))
             {
                 return BadRequest("One or both of given characters do not exist");
             }
@@ -61,7 +61,7 @@ namespace StarWars.Web.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCharacterAsync([FromBody] CharacterForUpdateDto dto, string id)
         {
-            if (!await _characterService.CharacterExistsAsync(new Guid(id)))
+            if (!await _characterService.CheckIfCharacterExistsAsync(new Guid(id)))
             {
                 return NotFound("Character with given id does not exist");
             }
@@ -71,10 +71,11 @@ namespace StarWars.Web.Controllers
             return NoContent();
         }
 
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCharacterAsync(string id)
         {
-            if (!await _characterService.CharacterExistsAsync(new Guid(id)))
+            if (!await _characterService.CheckIfCharacterExistsAsync(new Guid(id)))
             {
                 return NotFound("Character with given id does not exist");
             }
