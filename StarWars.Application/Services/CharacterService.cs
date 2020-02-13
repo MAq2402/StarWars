@@ -34,7 +34,7 @@ namespace StarWars.Application.Services
 
         public async Task<bool> CharacterExistsAsync(Guid id)
         {
-            return await _characterRepository.GetSingleAsync(id) != null;
+            return await _characterRepository.CharacterExistsAsync(id);
         }
 
         public async Task AddCharacterAsync(CharacterForCreationDto dto)

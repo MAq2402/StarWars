@@ -11,6 +11,7 @@ namespace StarWars.Data.Repositories
     {
         Task<IEnumerable<Character>> GetCharactersAsync();
         Task<Character> GetSingleAsync(Guid id);
+        Task<bool> CharacterExistsAsync(Guid id);
         Task AddAsync(Character character);
         Task SaveChangesAsync();
     }

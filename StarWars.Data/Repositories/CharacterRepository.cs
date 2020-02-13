@@ -36,6 +36,11 @@ namespace StarWars.Data.Repositories
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
+        public async Task<bool> CharacterExistsAsync(Guid id)
+        {
+            return await _dbContext.Characters.AnyAsync(c => c.Id == id);
+        }
+
         public async Task AddAsync(Character character)
         {
             await _dbContext.AddAsync(character);
