@@ -13,5 +13,7 @@ namespace StarWars.Application.Services
         Task<bool> CharacterExistsAsync(Guid id);
         Task AddCharacterAsync(CharacterForCreationDto dto);
         Task AddFriendForCharacterAsync(Guid firstCharacterId, Guid secondCharacterId);
+        Task UpdateCharacterAsync(CharacterForUpdateDto dto, Guid id);
+        Task DeleteCharacterAsync(Guid id);
     }
 }

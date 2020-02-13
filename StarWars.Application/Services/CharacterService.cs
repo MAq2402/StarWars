@@ -22,7 +22,7 @@ namespace StarWars.Application.Services
 
         public async Task<IEnumerable<CharacterDto>> GetCharactersAsync()
         {
-            var charactersFromRepo = await _characterRepository.GetCharactersAsync();
+            var charactersFromRepo = await _characterRepository.GetAllAsync();
             return _mapper.Map<IEnumerable<CharacterDto>>(charactersFromRepo);
         }
 
@@ -52,6 +52,21 @@ namespace StarWars.Application.Services
             var secondCharacter = await _characterRepository.GetSingleAsync(secondCharacterId);
 
             firstCharacter.MakeFriendship(secondCharacter);
+
+            await _characterRepository.SaveChangesAsync();
+        }
+
+        public async Task UpdateCharacterAsync(CharacterForUpdateDto dto, Guid id)
+        {
+            var character = await _characterRepository.GetSingleAsync(id);
+            character.Update(dto.Planet, dto.Episodes);
+
+            await _characterRepository.SaveChangesAsync();
+        }
+
+        public async Task DeleteCharacterAsync(Guid id)
+        {
+            await _characterRepository.DeleteCharacterAsync(id);
 
             await _characterRepository.SaveChangesAsync();
         }

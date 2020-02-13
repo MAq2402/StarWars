@@ -18,7 +18,7 @@ namespace StarWars.Data.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<Character>> GetCharactersAsync()
+        public async Task<IEnumerable<Character>> GetAllAsync()
         {
             return await _dbContext.Characters.Include(c => c.FriendshipsWhereIsFirst)
                 .ThenInclude(f => f.Second)
@@ -44,6 +44,14 @@ namespace StarWars.Data.Repositories
         public async Task AddAsync(Character character)
         {
             await _dbContext.AddAsync(character);
+        }
+
+        public async Task DeleteCharacterAsync(Guid id)
+        {
+            var character = await GetSingleAsync(id);
+            _dbContext.CharacterFriendships.RemoveRange(character.FriendshipsWhereIsFirst);
+            _dbContext.CharacterFriendships.RemoveRange(character.FriendshipsWhereIsSecond);
+            _dbContext.Characters.Remove(character);
         }
 
         public async Task SaveChangesAsync()
