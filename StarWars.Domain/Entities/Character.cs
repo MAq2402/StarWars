@@ -8,8 +8,8 @@ namespace StarWars.Domain.Entities
     public class Character
     {
         private readonly List<string> _episodes;
-        private readonly List<CharacterFriendship> _friendshipsWhereIsFirst = new List<CharacterFriendship>();
-        private readonly List<CharacterFriendship> _friendshipsWhereIsSecond = new List<CharacterFriendship>();
+        private List<CharacterFriendship> friendshipsWhereIsFirst = new List<CharacterFriendship>();
+        private List<CharacterFriendship> friendshipsWhereIsSecond = new List<CharacterFriendship>();
 
         private Character()
         {
@@ -28,9 +28,13 @@ namespace StarWars.Domain.Entities
         public string Name { get; private set; }
         public string Planet { get; private set; }
         public IEnumerable<string> Episodes => _episodes;
-        public IEnumerable<CharacterFriendship> FriendshipsWhereIsFirst => _friendshipsWhereIsFirst;
-        public IEnumerable<CharacterFriendship> FriendshipsWhereIsSecond => _friendshipsWhereIsSecond;
-        public IEnumerable<CharacterFriendship> Friendships =>
-            _friendshipsWhereIsFirst.Concat(_friendshipsWhereIsSecond);
+        public IEnumerable<CharacterFriendship> FriendshipsWhereIsFirst => friendshipsWhereIsFirst;
+        public IEnumerable<CharacterFriendship> FriendshipsWhereIsSecond => friendshipsWhereIsSecond;
+
+        public void MakeFriendship(Character otherCharacter)
+        {
+            var friendship = new CharacterFriendship(this, otherCharacter);
+            friendshipsWhereIsFirst.Add(friendship);
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace StarWars.Web.Controllers
     [ApiController]
     public class CharactersController : ControllerBase
     {
-        private ICharacterService _characterService;
+        private readonly ICharacterService _characterService;
 
         public CharactersController(ICharacterService characterService)
         {
@@ -26,9 +26,17 @@ namespace StarWars.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddCharacterAsync([FromBody] CharacterForCreationDto dto)
+        public async Task<IActionResult> CreateCharacterAsync([FromBody] CharacterForCreationDto dto)
         {
             await _characterService.AddCharacterAsync(dto);
+
+            return Created(string.Empty, null);
+        }
+
+        [HttpPost("{id}/friendships")]
+        public async Task<IActionResult> CreateFriendship([FromBody] CharacterFriendshipForCreationDto dto, string id)
+        {
+            await _characterService.AddFriendForCharacterAsync(new Guid(id), new Guid(dto.CharacterId));
 
             return Created(string.Empty, null);
         }

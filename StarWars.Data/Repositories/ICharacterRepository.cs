@@ -8,6 +8,8 @@ namespace StarWars.Data.Repositories
 {
     public interface ICharacterRepository
     {
+        Task<Character> GetSingleAsync(Guid id);
         Task AddAsync(Character character);
+        Task SaveChangesAsync();
     }
 }

@@ -10,5 +10,6 @@ namespace StarWars.Application.Services
     {
         Task<IEnumerable<CharacterDto>> GetCharactersAsync();
         Task AddCharacterAsync(CharacterForCreationDto dto);
+        Task AddFriendForCharacterAsync(Guid firstCharacterId, Guid secondCharacterId);
     }
 }

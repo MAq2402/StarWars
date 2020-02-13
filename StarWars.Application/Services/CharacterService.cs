@@ -10,7 +10,7 @@ namespace StarWars.Application.Services
 {
     public class CharacterService : ICharacterService
     {
-        private ICharacterRepository _characterRepository;
+        private readonly ICharacterRepository _characterRepository;
 
         public CharacterService(ICharacterRepository characterRepository)
         {
@@ -27,6 +27,18 @@ namespace StarWars.Application.Services
             var character = new Character(dto.Name, dto.Planet, dto.Episodes);
 
             await _characterRepository.AddAsync(character);
+
+            await _characterRepository.SaveChangesAsync();
+        }
+
+        public async Task AddFriendForCharacterAsync(Guid firstCharacterId, Guid secondCharacterId)
+        {
+            var firstCharacter = await _characterRepository.GetSingleAsync(firstCharacterId);
+            var secondCharacter = await _characterRepository.GetSingleAsync(secondCharacterId);
+
+            firstCharacter.MakeFriendship(secondCharacter);
+
+            await _characterRepository.SaveChangesAsync();
         }
     }
 }
