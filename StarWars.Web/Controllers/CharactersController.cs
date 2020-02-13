@@ -25,6 +25,17 @@ namespace StarWars.Web.Controllers
             return Ok(await _characterService.GetCharactersAsync());
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetCharacterAsync(string id)
+        {
+            if (!await _characterService.CharacterExistsAsync(new Guid(id)))
+            {
+                return NotFound("Character with given id does not exist");
+            }
+
+            return Ok(await _characterService.GetCharacterAsync(new Guid(id)));
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateCharacterAsync([FromBody] CharacterForCreationDto dto)
         {
@@ -36,6 +47,12 @@ namespace StarWars.Web.Controllers
         [HttpPost("{id}/friendships")]
         public async Task<IActionResult> CreateFriendship([FromBody] CharacterFriendshipForCreationDto dto, string id)
         {
+            if (!await _characterService.CharacterExistsAsync(new Guid(id)) ||
+                !await _characterService.CharacterExistsAsync(new Guid(dto.CharacterId)))
+            {
+                return BadRequest("One or both of given characters do not exist");
+            }
+
             await _characterService.AddFriendForCharacterAsync(new Guid(id), new Guid(dto.CharacterId));
 
             return Created(string.Empty, null);

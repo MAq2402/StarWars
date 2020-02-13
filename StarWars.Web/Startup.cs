@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using StarWars.Application.Mappings.Profiles;
 using StarWars.Application.Services;
 using StarWars.Data.DbContexts;
 using StarWars.Data.Repositories;
@@ -34,6 +37,8 @@ namespace StarWars.Web
 
             services.AddDbContext<StarWarsDbContext>(opt =>
                 opt.UseSqlServer(Configuration.GetConnectionString("Connection")));
+
+            services.AddAutoMapper(typeof(CharacterProfile));
 
             services.AddTransient<ICharacterService, CharacterService>();
             services.AddTransient<ICharacterRepository, CharacterRepository>();

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using StarWars.Application.DTOs;
 using StarWars.Data.Repositories;
 using StarWars.Domain.Entities;
@@ -11,15 +12,29 @@ namespace StarWars.Application.Services
     public class CharacterService : ICharacterService
     {
         private readonly ICharacterRepository _characterRepository;
+        private readonly IMapper _mapper;
 
-        public CharacterService(ICharacterRepository characterRepository)
+        public CharacterService(ICharacterRepository characterRepository, IMapper mapper)
         {
             _characterRepository = characterRepository;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<CharacterDto>> GetCharactersAsync()
         {
-            return await Task.FromResult(new List<CharacterDto>());
+            var charactersFromRepo = await _characterRepository.GetCharactersAsync();
+            return _mapper.Map<IEnumerable<CharacterDto>>(charactersFromRepo);
+        }
+
+        public async Task<CharacterDto> GetCharacterAsync(Guid id)
+        {
+            var characterFromRepo = await _characterRepository.GetSingleAsync(id);
+            return _mapper.Map<CharacterDto>(characterFromRepo);
+        }
+
+        public async Task<bool> CharacterExistsAsync(Guid id)
+        {
+            return await _characterRepository.CharacterExistsAsync(id);
         }
 
         public async Task AddCharacterAsync(CharacterForCreationDto dto)
