@@ -8,7 +8,6 @@ namespace StarWars.Domain.Entities
     {
         private CharacterFriendship()
         {
-
         }
 
         public CharacterFriendship(Character first, Character second)
@@ -19,6 +18,6 @@ namespace StarWars.Domain.Entities
 
         public Guid Id { get; private set; }
         public Character First { get; private set; }
-        public Character Second{ get; private set; }
+        public Character Second { get; private set; }
     }
 }

@@ -17,12 +17,6 @@ namespace StarWars.Data.Configurations
             builder.Property(c => c.Episodes)
                 .HasConversion(x => string.Join(',', x),
                     y => y.Split(',', StringSplitOptions.None).ToList());
-
-            //builder.Metadata.FindNavigation(nameof(Character.FriendshipsWhereIsFirst))
-            //    .SetPropertyAccessMode(PropertyAccessMode.Field);
-
-            //builder.Metadata.FindNavigation(nameof(Character.FriendshipsWhereIsSecond))
-            //    .SetPropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }
