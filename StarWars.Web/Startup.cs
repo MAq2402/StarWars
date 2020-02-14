@@ -41,7 +41,7 @@ namespace StarWars.Web
 
             services.AddAutoMapper(typeof(CharacterProfile));
 
-            services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "StarWars", Version = "v1" }));
+            services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo {Title = "StarWars", Version = "v1"}));
 
             services.AddTransient<ICharacterService, CharacterService>();
             services.AddTransient<ICharacterRepository, CharacterRepository>();
@@ -62,10 +62,7 @@ namespace StarWars.Web
             app.UseAuthorization();
 
             app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "StarWars");
-            });
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "StarWars"); });
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
