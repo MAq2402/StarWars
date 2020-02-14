@@ -27,9 +27,9 @@ namespace StarWars.Application.Services
             return _mapper.Map<IEnumerable<CharacterDto>>(charactersFromRepo);
         }
 
-        public IEnumerable<CharacterDto> GetCharacters(int pageNumber, int pageSize)
+        public async Task<IEnumerable<CharacterDto>> GetCharactersAsync(int pageNumber, int pageSize)
         {
-            var charactersFromRepo = _characterRepository.Get(pageNumber, pageSize);
+            var charactersFromRepo = await _characterRepository.GetAsync(pageNumber, pageSize);
 
             return _mapper.Map<IEnumerable<CharacterDto>>(charactersFromRepo);
         }
