@@ -20,9 +20,9 @@ namespace StarWars.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetCharacters(int pageNumber = 1, int pageSize = 10)
+        public async Task<IActionResult> GetCharactersAsync(int pageNumber = 1, int pageSize = 10)
         {
-            return Ok(_characterService.GetCharacters(pageNumber, pageSize));
+            return Ok(await _characterService.GetCharactersAsync(pageNumber, pageSize));
         }
 
         [HttpGet("{id}")]

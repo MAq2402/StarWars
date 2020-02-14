@@ -18,14 +18,15 @@ namespace StarWars.Data.Repositories
             _dbContext = dbContext;
         }
 
-        public IQueryable<Character> Get(int pageNumber, int pageSize)
+        public  async Task<IEnumerable<Character>> GetAsync(int pageNumber, int pageSize)
         {
-            return _dbContext.Characters.Include(c => c.FriendshipsWhereIsFirst)
+            return await _dbContext.Characters.Include(c => c.FriendshipsWhereIsFirst)
                 .ThenInclude(f => f.Second)
                 .Include(c => c.FriendshipsWhereIsSecond)
                 .ThenInclude(f => f.First)
                 .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize);
+                .Take(pageSize)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Character>> GetAllAsync()

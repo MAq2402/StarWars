@@ -9,7 +9,7 @@ namespace StarWars.Data.Repositories
 {
     public interface ICharacterRepository
     {
-        IQueryable<Character> Get(int pageNumber, int pageSize);
+        Task<IEnumerable<Character>> GetAsync(int pageNumber, int pageSize);
         Task<IEnumerable<Character>> GetAllAsync();
         Task<Character> GetSingleAsync(Guid id);
         Task<bool> CheckIfCharacterExistsAsync(Guid id);
