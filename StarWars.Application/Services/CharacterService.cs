@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -26,15 +27,22 @@ namespace StarWars.Application.Services
             return _mapper.Map<IEnumerable<CharacterDto>>(charactersFromRepo);
         }
 
+        public IEnumerable<CharacterDto> GetCharacters(int pageNumber, int pageSize)
+        {
+            var charactersFromRepo = _characterRepository.Get(pageNumber, pageSize);
+
+            return _mapper.Map<IEnumerable<CharacterDto>>(charactersFromRepo);
+        }
+
         public async Task<CharacterDto> GetCharacterAsync(Guid id)
         {
             var characterFromRepo = await _characterRepository.GetSingleAsync(id);
             return _mapper.Map<CharacterDto>(characterFromRepo);
         }
 
-        public async Task<bool> CharacterExistsAsync(Guid id)
+        public async Task<bool> CheckIfCharacterExistsAsync(Guid id)
         {
-            return await _characterRepository.CharacterExistsAsync(id);
+            return await _characterRepository.CheckIfCharacterExistsAsync(id);
         }
 
         public async Task AddCharacterAsync(CharacterForCreationDto dto)

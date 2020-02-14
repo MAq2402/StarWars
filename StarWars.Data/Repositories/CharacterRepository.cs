@@ -18,6 +18,16 @@ namespace StarWars.Data.Repositories
             _dbContext = dbContext;
         }
 
+        public IQueryable<Character> Get(int pageNumber, int pageSize)
+        {
+            return _dbContext.Characters.Include(c => c.FriendshipsWhereIsFirst)
+                .ThenInclude(f => f.Second)
+                .Include(c => c.FriendshipsWhereIsSecond)
+                .ThenInclude(f => f.First)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize);
+        }
+
         public async Task<IEnumerable<Character>> GetAllAsync()
         {
             return await _dbContext.Characters.Include(c => c.FriendshipsWhereIsFirst)
@@ -36,7 +46,7 @@ namespace StarWars.Data.Repositories
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task<bool> CharacterExistsAsync(Guid id)
+        public async Task<bool> CheckIfCharacterExistsAsync(Guid id)
         {
             return await _dbContext.Characters.AnyAsync(c => c.Id == id);
         }
