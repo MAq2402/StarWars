@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using StarWars.Application.Mappings.Profiles;
 using StarWars.Application.Services;
 using StarWars.Data.DbContexts;
@@ -40,6 +41,8 @@ namespace StarWars.Web
 
             services.AddAutoMapper(typeof(CharacterProfile));
 
+            services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "StarWars", Version = "v1" }));
+
             services.AddTransient<ICharacterService, CharacterService>();
             services.AddTransient<ICharacterRepository, CharacterRepository>();
         }
@@ -57,6 +60,12 @@ namespace StarWars.Web
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "StarWars");
+            });
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
